@@ -3,6 +3,21 @@
 <head>
   <script src="englishword.js"></script>
   <script src="indoword.js"></script>
+<script>
+ punk = [];
+ piu = 0;
+ banyakDaftar = 9;
+ for (let i = 1; i < banyakDaftar+1; i++){
+   if (Math.random() < 1/2){
+    document.write('<scr' + 'ipt src=\"https://cdn.jsdelivr.net/gh/swrdfgd/PunkRecords/punk'+i+'.js\"></scr' + 'ipt>')
+    piu++;
+   }
+ }
+ if (piu == 0){
+  document.write('<scr' + 'ipt src=\"https://cdn.jsdelivr.net/gh/swrdfgd/PunkRecords/punk'+(1+Math.floor(Math.random()*banyakDaftar))+'.js\"></scr' + 'ipt>')
+  piu++;
+ }
+</script>
   <title>Random Words</title>
   <style>
     body {
@@ -238,6 +253,7 @@
 
     function generateRandomWords() {
       const randomWords = [];
+      urutanKata = 0;
       while (randomWords.length < 10) {
         const randomIndex = Math.floor(Math.random() * words.length);
         const word = words[randomIndex];
@@ -252,6 +268,7 @@
         const wordElement = document.createElement("div");
         wordElement.className = "word";
         wordElement.textContent = word;
+        wordElement.id = "kata"+urutanKata; urutanKata++;
         randomWordsElement.appendChild(wordElement);
       });
     }
@@ -262,5 +279,45 @@
 
     generateRandomWords(); // Generate random words on page load
   </script>
+<script>
+
+function randomtaxo(){
+
+pilihwiki = punk[Math.floor(Math.random()*punk.length)][0];
+pilihwiki = pilihwiki.split('http:').join('https:');
+
+var url = pilihwiki+"api.php"; 
+
+var params = {
+    action: "query",
+    format: "json",
+    list: "random",
+    rnlimit: "5",
+    rnnamespace: "0"
+};
+
+url = url + "?origin=*";
+Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+fetch(url)
+    .then(function(response){return response.json();})
+    .then(function(response) {
+        randoms = response.query.random;
+        //for (var r in randoms) {
+        //    console.log(randoms[r].title);
+        //}
+        katake = Math.floor(Math.random()*10);
+        document.getElementById("kata"+katake).innerHTML = randoms[0].title;
+    })
+    .catch(function(error){console.log(error);});
+
+
+
+
+}
+randomtaxo();
+
+</script>
+
 </body>
 </html>
