@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="englishword.js"></script>
+  <script src="indoword.js"></script>
+  <title>Random Words</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #random-words {
+      font-size: 24px;
+      font-weight: bold;
+      color: #007bff;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .word {
+      margin: 5px;
+    }
+    #refresh-button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="random-words"></div>
+  <button id="refresh-button" onclick="refreshPage()">Refresh</button>
+
+  <script>
+    // Data frekuensi huruf dari kamus (dalam persentase)
+    const kamusFrequency = {
+       'A': 0.078,
+       'B': 0.02,
+       'C': 0.04,
+       'D': 0.038,
+       'E': 0.11,
+       'F': 0.014,
+       'G': 0.03,
+       'H': 0.023,
+       'I': 0.086,
+       'J': 0.0021,
+       'K': 0.0097,
+       'L': 0.053,
+       'M': 0.027,
+       'N': 0.072,
+       'O': 0.061,
+       'P': 0.028,
+       'Q': 0.0019,
+       'R': 0.073,
+       'S': 0.087,
+       'T': 0.067,
+       'U': 0.033,
+       'V': 0.01,
+       'W': 0.0091,
+       'X': 0.0027,
+       'Y': 0.016,
+       'Z': 0.0044
+    };
+    const kamusFrequencyIndonesia = {
+       'A': 0.2039,
+       'B': 0.0264,
+       'C': 0.0076,
+       'D': 0.0500,
+       'E': 0.0828,
+       'É': 0.0001,
+       'F': 0.0021,
+       'G': 0.0366,
+       'H': 0.0274,
+       'I': 0.0798,
+       'J': 0.0087,
+       'K': 0.0514,
+       'L': 0.0326,
+       'M': 0.0421,
+       'N': 0.0933,
+       'O': 0.0126,
+       'P': 0.0261,
+       'Q': 0.0001,
+       'R': 0.0464,
+       'S': 0.0415,
+       'T': 0.0558,
+       'U': 0.0462,
+       'V': 0.0018,
+       'W': 0.0048,
+       'X': 0.0003,
+       'Y': 0.0188,
+       'Z': 0.0004
+    };
+
+    // Fungsi untuk menghasilkan huruf acak berdasarkan peluang kemunculannya di kamus
+    function getRandomLetter(probabilities) {
+       const random = Math.random();
+       let cumulativeProbability = 0;
+
+       for (const char in probabilities) {
+          cumulativeProbability += probabilities[char];
+          if (random < cumulativeProbability) {
+             return char;
+          }
+       }
+
+       // Jika seluruh huruf telah diiterasi tetapi belum ada yang dipilih, pilih huruf terakhir sebagai default.
+       return Object.keys(probabilities)[Object.keys(probabilities).length - 1];
+    }
+
+    // Contoh penggunaan fungsi untuk menghasilkan huruf acak berdasarkan frekuensi kamus
+    const randomLetter = getRandomLetter(kamusFrequency);
+
+  
+  </script>
+
+  <script>
+  //random unicode string
+  function getRandomUnicodeCharacter() {
+  // Generate a random code point within the entire Unicode range (0x0000 to 0x10FFFF).
+  const codePoint = Math.floor(Math.random() * (0x10FFFF + 1));
+  
+  // Convert the code point to a Unicode character.
+  return String.fromCodePoint(codePoint);
+  }
+
+  function getRandomLatinLetter() {
+    // Generate a random code point within the Unicode Latin Letters range (U+0041 to U+005A for uppercase letters, U+0061 to U+007A for lowercase letters).
+    const uppercaseCodePoint = Math.floor(Math.random() * (0x005A - 0x0041 + 1) + 0x0041);
+    const lowercaseCodePoint = Math.floor(Math.random() * (0x007A - 0x0061 + 1) + 0x0061);
+
+    // Randomly choose between uppercase and lowercase letters.
+    const codePoint = Math.random() < 0.5 ? uppercaseCodePoint : lowercaseCodePoint;
+
+    // Convert the code point to a Unicode character.
+    const character = String.fromCodePoint(codePoint);
+
+    return character;
+  }
+
+  </script>
+
+  <script>
+  //new Word
+  function getRandomWord(mode) {
+   if (mode == 0){
+      //mode full acak
+      var panjangKata = 5;
+      while (Math.random() < 1/2){panjangKata++;}
+      panjangKata = Math.ceil(Math.random()*panjangKata);
+      var kataBaru = '';
+      for (j = 0; j < panjangKata; j++){kataBaru += getRandomUnicodeCharacter();}
+      return kataBaru;
+   }
+
+   if (mode == 1){
+      //mode hurufLatin
+      var panjangKata = 5;
+      while (Math.random() < 1/2){panjangKata++;}
+      panjangKata = Math.ceil(Math.random()*panjangKata);
+      var kataBaru = '';
+      for (j = 0; j < panjangKata; j++){kataBaru += getRandomLatinLetter();}
+      return kataBaru;
+   }
+
+   if (mode == 2){
+      //mode hurufLatinSesuaiFrekuensi
+      var panjangKata = 5;
+      while (Math.random() < 1/2){panjangKata++;}
+      panjangKata = Math.ceil(Math.random()*panjangKata);
+      var kataBaru = '';
+      for (j = 0; j < panjangKata; j++){kataBaru += getRandomLetter(kamusFrequency);}
+      if (Math.random() < 1/2){
+         kataBaru = kataBaru.toLowerCase();
+         if (Math.random() < 1/2){
+            kataBaru = kataBaru.charAt(0).toUpperCase() + kataBaru.slice(1)
+         }
+      }
+      return kataBaru;
+   }
+
+   if (mode == 3){
+      //mode hurufLatinSesuaiFrekuensi
+      var panjangKata = 5;
+      while (Math.random() < 1/2){panjangKata++;}
+      panjangKata = Math.ceil(Math.random()*panjangKata);
+      var kataBaru = '';
+      for (j = 0; j < panjangKata; j++){kataBaru += getRandomLetter(kamusFrequencyIndonesia);}
+      if (Math.random() < 1/2){
+         kataBaru = kataBaru.toLowerCase();
+         if (Math.random() < 1/2){
+            kataBaru = kataBaru.charAt(0).toUpperCase() + kataBaru.slice(1)
+         }
+      }
+      return kataBaru;
+   }
+
+   if (mode == 4){
+      //mode hurufLatinSesuaiFrekuensi
+      var panjangKata = 5;
+      var kataBaru = kataIndo[Math.floor(Math.random()*kataIndo.length)];
+      if (Math.random() < 1/2){
+         kataBaru = kataBaru.toUpperCase();
+      }
+      else if (Math.random() < 1/2){
+         kataBaru = kataBaru.charAt(0).toUpperCase() + kataBaru.slice(1)
+      }
+      return kataBaru;
+   }
+
+   if (mode == 5){
+      //mode hurufLatinSesuaiFrekuensi
+      var panjangKata = 5;
+      var kataBaru = kataEnglish[Math.floor(Math.random()*kataEnglish.length)];
+      if (Math.random() < 1/2){
+         kataBaru = kataBaru.toUpperCase();
+      }
+      else if (Math.random() < 1/2){
+         kataBaru = kataBaru.charAt(0).toUpperCase() + kataBaru.slice(1)
+      }
+      return kataBaru;
+   }
+
+  }
+  </script>
+
+  <script>
+    // Array of random words
+    var words = [
+    ];
+
+    for (var i = 0; i < 12; i++){
+      words.push(getRandomWord(Math.floor(Math.random()*6)));
+    }
+
+    function generateRandomWords() {
+      const randomWords = [];
+      while (randomWords.length < 10) {
+        const randomIndex = Math.floor(Math.random() * words.length);
+        const word = words[randomIndex];
+        if (!randomWords.includes(word)) {
+          randomWords.push(word);
+        }
+      }
+
+      const randomWordsElement = document.getElementById("random-words");
+      randomWordsElement.innerHTML = ""; // Clear previous words
+      randomWords.forEach(word => {
+        const wordElement = document.createElement("div");
+        wordElement.className = "word";
+        wordElement.textContent = word;
+        randomWordsElement.appendChild(wordElement);
+      });
+    }
+
+    function refreshPage() {
+      location.reload(); // Reload the page
+    }
+
+    generateRandomWords(); // Generate random words on page load
+  </script>
+</body>
+</html>
