@@ -279,6 +279,40 @@
 
     generateRandomWords(); // Generate random words on page load
   </script>
+
+<script>
+function randomtaxo2(){
+
+daftarwiki = ["en.wikipedia.org", "id.wikipedia.org"]
+pilihwiki = daftarwiki[Math.floor(Math.random()*daftarwiki.length)];
+var url = "https://"+pilihwiki+"/w/api.php"; 
+
+var params = {
+    action: "query",
+    format: "json",
+    list: "random",
+    rnlimit: "5",
+    rnnamespace: "0"
+};
+
+url = url + "?origin=*";
+Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+fetch(url)
+    .then(function(response){return response.json();})
+    .then(function(response) {
+        randoms = response.query.random;
+        katake = Math.floor(Math.random()*10);
+document.getElementById("kata"+katake).innerHTML = randoms[0].title;
+    })
+    .catch(function(error){console.log(error);});
+
+
+
+
+}
+</script>
+
 <script>
 
 function randomtaxo(){
@@ -308,6 +342,7 @@ fetch(url)
         //}
         katake = Math.floor(Math.random()*10);
         document.getElementById("kata"+katake).innerHTML = randoms[0].title;
+        randomtaxo2();
     })
     .catch(function(error){console.log(error);});
 
