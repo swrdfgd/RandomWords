@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' type='text/javascript'></script>
   <script src="englishword.js"></script>
   <script src="indoword.js"></script>
+  <script src="characterInFont.js"></script>
+  
+ <script>
+ // KataGerman
+ kataGerman = [];
+ document.write('<scr' + 'ipt src="de/germanword'+Math.ceil(Math.random()*390)+'.js"></scr' + 'ipt>');
+ while(Math.random() < 1/2){
+	document.write('<scr' + 'ipt src="de/germanword'+Math.ceil(Math.random()*390)+'.js"></scr' + 'ipt>');
+ }
+ </script>
 <script>
  punk = [];
  piu = 0;
@@ -134,9 +145,11 @@
 
   <script>
   //random unicode string
-  function getRandomUnicodeCharacter() {
+  function getRandomUnicodeCharacter(font = getComputedStyle(document.body).fontFamily) {
   // Generate a random code point within the entire Unicode range (0x0000 to 0x10FFFF).
   const codePoint = Math.floor(Math.random() * (0x10FFFF + 1));
+  
+  if(!characterIsSupported(String.fromCodePoint(codePoint),font)){return getRandomUnicodeCharacter();}
   
   // Convert the code point to a Unicode character.
   return String.fromCodePoint(codePoint);
@@ -160,14 +173,14 @@
 
   <script>
   //new Word
-  function getRandomWord(mode) {
+  function getRandomWord(mode,font = getComputedStyle(document.body).fontFamily) {
    if (mode == 0){
       //mode full acak
       var panjangKata = 5;
       while (Math.random() < 1/2){panjangKata++;}
       panjangKata = Math.ceil(Math.random()*panjangKata);
       var kataBaru = '';
-      for (j = 0; j < panjangKata; j++){kataBaru += getRandomUnicodeCharacter();}
+      for (j = 0; j < panjangKata; j++){kataBaru += getRandomUnicodeCharacter(font);}
       return kataBaru;
    }
 
@@ -214,8 +227,7 @@
    }
 
    if (mode == 4){
-      //mode hurufLatinSesuaiFrekuensi
-      var panjangKata = 5;
+      //mode kataIndo
       var kataBaru = kataIndo[Math.floor(Math.random()*kataIndo.length)];
       if (Math.random() < 1/2){
          kataBaru = kataBaru.toUpperCase();
@@ -227,8 +239,8 @@
    }
 
    if (mode == 5){
-      //mode hurufLatinSesuaiFrekuensi
-      var panjangKata = 5;
+      //mode kataInggris
+
       var kataBaru = kataEnglish[Math.floor(Math.random()*kataEnglish.length)];
       if (Math.random() < 1/2){
          kataBaru = kataBaru.toUpperCase();
@@ -352,6 +364,60 @@ fetch(url)
 }
 randomtaxo();
 
+</script>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script>
+//random font https://codepen.io/akobashikawa/pen/rZRrQN
+const API_KEY = 'AIzaSyBTPAz_OQr140D1rtD0o6vwM63XohXw8Ds';
+daftarFont = {};
+let fontsList = [];
+const el = document.querySelector("#quote");
+async function loadFontsList() {
+    try {
+        const result = await fetch('https://www.googleapis.com/webfonts/v1/webfonts?key=' + API_KEY);
+        const data = await result.json();
+        //console.log('loaded google fonts list: ', data.items.length);
+        return data.items;
+    } catch (error) {
+        console.log('loadFontsList', error, error.message);
+    }
+}
+function loadRandomFont(fontsList) {
+    const randomIndex = Math.floor(Math.random() * fontsList.length);
+    const choosedFont = fontsList[randomIndex].family;
+    WebFont.load({
+        google: {
+            families: [choosedFont]
+        }
+    });
+    //console.log('choosed font: ', choosedFont);
+    return choosedFont;
+}
+
+function updateFont(n,el = document.querySelector("#quote"), choosedFont = loadRandomFont(fontsList)) {
+    el.style.fontFamily = choosedFont;
+    el.setAttribute('title', choosedFont);
+	daftarFont[n] = choosedFont;
+	if (n == 9){
+		katakers = Math.floor(Math.random()*10);
+		document.getElementById("kata"+katakers).innerHTML = getRandomWord(0,daftarFont[katakers]);
+		//console.log("katakers = " + katakers);
+	}
+}
+
+async function main() {
+    fontsList = await loadFontsList();
+    const choosedFont = loadRandomFont(fontsList);
+	for (let i = 0; i < 10; i++){
+		updateFont(i,document.querySelector("#kata"+i));
+	}
+    //updateFont(el, choosedFont);
+    //el.style.visibility = "visible";
+}
+main();
 </script>
 
 </body>
