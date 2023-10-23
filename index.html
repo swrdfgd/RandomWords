@@ -149,7 +149,7 @@
   // Generate a random code point within the entire Unicode range (0x0000 to 0x10FFFF).
   const codePoint = Math.floor(Math.random() * (0x10FFFF + 1));
   
-  if(!characterIsSupported(String.fromCodePoint(codePoint),font)){return getRandomUnicodeCharacter();}
+  if(!characterIsSupported(String.fromCodePoint(codePoint),font)){return getRandomUnicodeCharacter(font);}
   
   // Convert the code point to a Unicode character.
   return String.fromCodePoint(codePoint);
