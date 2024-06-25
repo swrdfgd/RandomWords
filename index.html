@@ -250,6 +250,19 @@
       }
       return kataBaru;
    }
+   
+   if (mode == 6){
+      //mode kataJerman
+
+      var kataBaru = kataGerman[Math.floor(Math.random()*kataGerman.length)];
+      if (Math.random() < 1/2){
+         kataBaru = kataBaru.toUpperCase();
+      }
+      else if (Math.random() < 1/2){
+         kataBaru = kataBaru.charAt(0).toUpperCase() + kataBaru.slice(1)
+      }
+      return kataBaru;
+   }
 
   }
   </script>
@@ -260,7 +273,7 @@
     ];
 
     for (var i = 0; i < 12; i++){
-      words.push(getRandomWord(Math.floor(Math.random()*6)));
+      words.push(getRandomWord(Math.floor(Math.random()*7)));
     }
 
     function generateRandomWords() {
