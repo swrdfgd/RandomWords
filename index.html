@@ -7,6 +7,8 @@
   <script src="characterInFont.js"></script>
   
  <script>
+ // KarakterChina
+ document.write('<scr' + 'ipt src="chChar/listChineseChar.js"></scr' + 'ipt>');
  // KataGerman
  kataGerman = [];
  document.write('<scr' + 'ipt src="de/germanword'+Math.ceil(Math.random()*390)+'.js"></scr' + 'ipt>');
@@ -263,6 +265,16 @@
       }
       return kataBaru;
    }
+   
+   if (mode == 7){
+      //mode hurufLatin
+      var panjangKata = 2;
+      while (Math.random() < 1/2){panjangKata++;}
+      panjangKata = Math.ceil(Math.random()*panjangKata);
+      var kataBaru = '';
+      for (j = 0; j < panjangKata; j++){kataBaru += chineseChar[Math.floor(Math.random()*chineseChar.length)];}
+      return kataBaru;
+   }
 
   }
   </script>
@@ -273,7 +285,7 @@
     ];
 
     for (var i = 0; i < 12; i++){
-      words.push(getRandomWord(Math.floor(Math.random()*7)));
+      words.push(getRandomWord(Math.floor(Math.random()*8)));
     }
 
     function generateRandomWords() {
