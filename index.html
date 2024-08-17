@@ -7,6 +7,20 @@
   <script src="characterInFont.js"></script>
   
  <script>
+ function getRandomHexColor() {
+    // Membuat angka acak dari 0 hingga 16777215 (FFFFFF dalam hex)
+    let randomColor = Math.floor(Math.random() * 16777215);
+    
+    // Mengubah angka menjadi format hex dan menambahkan leading zero jika perlu
+    let hexColor = "#" + randomColor.toString(16).padStart(6, '0');
+    
+    // Mengubah huruf hex menjadi capitalized
+    return hexColor.toUpperCase();
+}
+
+console.log(getRandomHexColor());
+ </script>
+ <script>
  // KarakterChina
  document.write('<scr' + 'ipt src="chChar/listChineseChar.js"></scr' + 'ipt>');
  // KataGerman
@@ -306,7 +320,29 @@
         wordElement.className = "word";
         wordElement.textContent = word;
         wordElement.id = "kata"+urutanKata; urutanKata++;
-        randomWordsElement.appendChild(wordElement);
+		wordElement.style.padding = `${Math.floor(1/(1-Math.random()))-1}px`
+		wordElement.style.color = getRandomHexColor();
+		wordElement.style.backgroundColor = getRandomHexColor();
+		wordElement.style.borderRadius = `${Math.floor(1/(1-Math.random()))-1}px ${Math.floor(1/(1-Math.random()))-1}px ${Math.floor(1/(1-Math.random()))-1}px ${Math.floor(1/(1-Math.random()))-1}px`;
+        if (Math.random() < 1/2){
+			wordElement.style.border = `${Math.floor(1/(1-Math.random()))-1}px ${['solid','dotted','dashed','double','groove','ridge','inset','outset','hidden','none'][Math.floor(Math.random()*10)]} ${getRandomHexColor()}`;
+		}
+		else{
+			bordersStyles = [`${Math.floor(1/(1-Math.random()))-1}px ${['solid','dotted','dashed','double','groove','ridge','inset','outset','hidden','none'][Math.floor(Math.random()*10)]} ${getRandomHexColor()}`,`${Math.floor(1/(1-Math.random()))-1}px ${['solid','dotted','dashed','double','groove','ridge','inset','outset','hidden','none'][Math.floor(Math.random()*10)]} ${getRandomHexColor()}`,`${Math.floor(1/(1-Math.random()))-1}px ${['solid','dotted','dashed','double','groove','ridge','inset','outset','hidden','none'][Math.floor(Math.random()*10)]} ${getRandomHexColor()}`,`${Math.floor(1/(1-Math.random()))-1}px ${['solid','dotted','dashed','double','groove','ridge','inset','outset','hidden','none'][Math.floor(Math.random()*10)]} ${getRandomHexColor()}`]
+			if (Math.random() < 1/2){
+				wordElement.style.borderTop = bordersStyles[Math.floor(Math.random()*4)]
+			}
+			if (Math.random() < 1/2){
+				wordElement.style.borderRight = bordersStyles[Math.floor(Math.random()*4)]
+			}
+			if (Math.random() < 1/2){
+				wordElement.style.borderBottom = bordersStyles[Math.floor(Math.random()*4)]
+			}
+			if (Math.random() < 1/2){
+				wordElement.style.borderLeft = bordersStyles[Math.floor(Math.random()*4)]
+			}
+		}
+		randomWordsElement.appendChild(wordElement);
       });
     }
 
