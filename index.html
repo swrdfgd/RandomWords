@@ -48,11 +48,11 @@ console.log(getRandomHexColor());
  <script>
  // KarakterChina
  document.write('<scr' + 'ipt src="chChar/listChineseChar.js"></scr' + 'ipt>');
- // KataGerman
- kataGerman = [];
- document.write('<scr' + 'ipt src="de/germanword'+Math.ceil(Math.random()*390)+'.js"></scr' + 'ipt>');
+ // kataSemuaBahasa
+ kata = [];
+ document.write('<scr' + 'ipt src="kata/output_'+Math.ceil(Math.random()*424)+'.js"></scr' + 'ipt>');
  while(Math.random() < 1/2){
-	document.write('<scr' + 'ipt src="de/germanword'+Math.ceil(Math.random()*390)+'.js"></scr' + 'ipt>');
+	 document.write('<scr' + 'ipt src="kata/output_'+Math.ceil(Math.random()*424)+'.js"></scr' + 'ipt>');
  }
  </script>
 <script>
@@ -293,9 +293,9 @@ console.log(getRandomHexColor());
    }
    
    if (mode == 6){
-      //mode kataJerman
+      //mode kataSemuaBahasa
 
-      var kataBaru = kataGerman[Math.floor(Math.random()*kataGerman.length)];
+      var kataBaru = kata[Math.floor(Math.random()*kata.length)];
       if (Math.random() < 1/2){
          kataBaru = kataBaru.toUpperCase();
       }
@@ -306,7 +306,7 @@ console.log(getRandomHexColor());
    }
    
    if (mode == 7){
-      //mode hurufLatin
+     
       var panjangKata = 2;
       while (Math.random() < 1/2){panjangKata++;}
       panjangKata = Math.ceil(Math.random()*panjangKata);
