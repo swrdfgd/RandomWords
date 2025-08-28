@@ -2,11 +2,11 @@
 <html>
 <head>
 	<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' type='text/javascript'></script>
-  <script src="englishword.js"></script>
-  <script src="indoword.js"></script>
-  <script src="characterInFont.js"></script>
-  
-  
+  	<script src="englishword.js"></script>
+  	<script src="indoword.js"></script>
+  	<script src="characterInFont.js"></script>
+	
+ 
  <script>
  //randomcolour
  function randomColor(){
@@ -69,38 +69,134 @@ console.log(getRandomHexColor());
   document.write('<scr' + 'ipt src=\"https://cdn.jsdelivr.net/gh/swrdfgd/PunkRecords/punk'+(1+Math.floor(Math.random()*banyakDaftar))+'.js\"></scr' + 'ipt>')
   piu++;
  }
-</script>
-  <title>Random Words</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    #random-words {
-      font-size: 24px;
-      font-weight: bold;
-      color: #007bff;
-      margin-bottom: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .word {
-      margin: 5px;
-    }
-    #refresh-button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+</script>	
+
+  	<title>Random Words</title>
+  	<style>
+		/* ====== GLOBAL STYLING ====== */
+		:root {
+			--bg-color: #111;
+			--text-color: #f5f5f5;
+			--primary: #00c896;
+			--primary-hover: #00e0a6;
+			--card-bg: #1c1c1c;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: "Segoe UI", Arial, sans-serif;
+			background: var(--bg-color);
+			color: var(--text-color);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			min-height: 100vh;
+			padding: 20px;
+		}
+
+		/* ====== TOP BAR ====== */
+		.top-bar {
+			width: 100%;
+			max-width: 900px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 30px;
+		}
+
+		.top-bar .btn {
+			padding: 10px 20px;
+			font-size: 1rem;
+			font-weight: 600;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: background 0.25s ease, transform 0.2s ease, color 0.25s ease;
+		}
+
+		#refresh-button {
+			background: var(--primary);
+			color: #111;
+			border: none;
+		}
+
+		#refresh-button:hover {
+			background: var(--primary-hover);
+			transform: scale(1.05);
+		}
+
+		#donate-button {
+			background: transparent;
+			color: var(--primary);
+			border: 2px solid var(--primary);
+			text-decoration: none;
+		}
+
+		#donate-button:hover {
+			background: var(--primary);
+			color: #111;
+			transform: scale(1.05);
+		}
+
+		/* ====== RANDOM WORDS AREA ====== */
+		#random-words {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 12px;
+			width: 100%;
+			max-width: 600px;
+		}
+
+		/* WORD ITEM */
+		.word {
+			width: 100%;
+			background: var(--card-bg);
+			color: var(--primary);
+			padding: 14px 18px;
+			border-radius: 10px;
+			font-size: 1.05rem;
+			font-weight: 600;
+			text-align: center;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.word:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 4px 12px rgba(0, 200, 150, 0.25);
+		}
+
+		/* ====== RESPONSIVE ====== */
+		@media (max-width: 600px) {
+			.top-bar {
+				flex-direction: column;
+				gap: 10px;
+			}
+			#random-words {
+				grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+			}
+		}
+  	</style>
 </head>
 <body>
-  <div id="random-words"></div>
-  <button id="refresh-button" onclick="refreshPage()">Refresh</button>
+
+	<div class="top-bar">
+		<button id="refresh-button" class="btn" onclick="refreshPage()">🔄 Refresh</button>
+		<a href="https://www.paypal.com/paypalme/wodymaple" target="_blank" id="donate-button" class="btn">💖 Donate</a>
+	</div>
+
+	<!-- LIST OF WORDS (vertical) -->
+	<div id="random-words"></div>
+
+
+	
+   <script>
+	banyakKata = 1 + Math.floor(Math.random()*100)
+   </script>
 
   <script>
     // Data frekuensi huruf dari kamus (dalam persentase)
@@ -323,14 +419,14 @@ console.log(getRandomHexColor());
     var words = [
     ];
 
-    for (var i = 0; i < 12; i++){
+    for (var i = 0; i < banyakKata + 2; i++){
       words.push(getRandomWord(Math.floor(Math.random()*8)));
     }
 
     function generateRandomWords() {
       const randomWords = [];
       urutanKata = 0;
-      while (randomWords.length < 10) {
+      while (randomWords.length < banyakKata) {
         const randomIndex = Math.floor(Math.random() * words.length);
         const word = words[randomIndex];
         if (!randomWords.includes(word)) {
@@ -401,7 +497,7 @@ fetch(url)
     .then(function(response){return response.json();})
     .then(function(response) {
         randoms = response.query.random;
-        katake = Math.floor(Math.random()*10);
+        katake = Math.floor(Math.random()*banyakKata);
 document.getElementById("kata"+katake).innerHTML = randoms[0].title;
     })
     .catch(function(error){console.log(error);});
@@ -439,7 +535,7 @@ fetch(url)
         //for (var r in randoms) {
         //    console.log(randoms[r].title);
         //}
-        katake = Math.floor(Math.random()*10);
+        katake = Math.floor(Math.random()*banyakKata);
         document.getElementById("kata"+katake).innerHTML = randoms[0].title;
         randomtaxo2();
     })
@@ -489,7 +585,7 @@ function updateFont(n,el = document.querySelector("#quote"), choosedFont = loadR
     el.setAttribute('title', choosedFont);
 	daftarFont[n] = choosedFont;
 	if (n == 9){
-		katakers = Math.floor(Math.random()*10);
+		katakers = Math.floor(Math.random()*banyakKata);
 		document.getElementById("kata"+katakers).innerHTML = getRandomWord(0,daftarFont[katakers]);
 		//console.log("katakers = " + katakers);
 	}
@@ -498,7 +594,7 @@ function updateFont(n,el = document.querySelector("#quote"), choosedFont = loadR
 async function main() {
     fontsList = await loadFontsList();
     const choosedFont = loadRandomFont(fontsList);
-	for (let i = 0; i < 10; i++){
+	for (let i = 0; i < banyakKata; i++){
 		updateFont(i,document.querySelector("#kata"+i));
 	}
     //updateFont(el, choosedFont);
@@ -506,6 +602,5 @@ async function main() {
 }
 main();
 </script>
-
 </body>
 </html>
