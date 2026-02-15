@@ -1476,7 +1476,7 @@ kata = kata.concat([
 "cirillicara",
 "ciripel",
 "cis",
-"cis<cr>"-el",
+"cis<cr>-el",
 "citadel",
 "citrommal",
 "city",
